@@ -178,7 +178,7 @@ const OPERATORS_BUTTONS = document.querySelectorAll('.operator')
 
 // Shows the result of an operation
 function showResult() {
-    secondNumber = dependingSignDeclarator()
+    secondNumber = variableDeclarator()
     INPUT.textContent = operate(firstNumber, secondNumber, operator)
     HISTORY.textContent = `${firstNumber} ${operator} ${secondNumber}`
     screenShowingResult = true
@@ -186,12 +186,8 @@ function showResult() {
 }
 
 // Puts a number into a variable depending the sign
-function dependingSignDeclarator() {
-    if (sign == 'positive') {
-        return Number(INPUT.textContent)
-    } else {
-        return Number(INPUT.textContent)
-    }
+function variableDeclarator() {
+    return Number(INPUT.textContent) 
 }
 
 // Clears the variables
@@ -225,11 +221,6 @@ DELETE.addEventListener('click', () => {
     if (INPUT.textContent != '' && INPUT.textContent != '0' && screenShowingResult == false) {
         INPUT.textContent = parseInt(Number(INPUT.textContent) / 10)
     }
-})
-
-// Decimal button
-DOT.addEventListener('click', () => {
-    
 })
 
 // Event Listener for each number button
@@ -279,7 +270,7 @@ OPERATORS_BUTTONS.forEach((operator_button) => {
         if (INPUT.textContent != '' && operator_button.textContent == '!') {
             // If it is the first operator
             if (operator == null) {
-                firstNumber = dependingSignDeclarator()
+                firstNumber = variableDeclarator()
                 operator = operator_button.textContent
                 HISTORY.textContent = `${firstNumber}${operator}`
                 INPUT.textContent = factorial(firstNumber)
@@ -288,7 +279,7 @@ OPERATORS_BUTTONS.forEach((operator_button) => {
             // If the user wants to do more than one operation wihout pressing '='
             } else {
                 showResult()
-                firstNumber = dependingSignDeclarator()
+                firstNumber = variableDeclarator()
                 operator = operator_button.textContent
                 HISTORY.textContent = `${firstNumber}${operator}`
                 INPUT.textContent = factorial(firstNumber)
@@ -302,7 +293,7 @@ OPERATORS_BUTTONS.forEach((operator_button) => {
 
             // If we have no numbers into variables & there is no operator
             if (firstNumber == null && operator == null) {
-                firstNumber = dependingSignDeclarator()
+                firstNumber = variableDeclarator()
                 operator = operator_button.textContent
                 HISTORY.textContent = `${firstNumber} ${operator}`
                 clearInputScreen()
@@ -310,7 +301,7 @@ OPERATORS_BUTTONS.forEach((operator_button) => {
             } else {
                 showResult()
                 clearVars()
-                firstNumber = dependingSignDeclarator()
+                firstNumber = variableDeclarator()
                 operator = operator_button.textContent
             }
         }
