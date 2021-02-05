@@ -202,15 +202,21 @@ function clearVars() {
     sign = 'positive'
 }
 
-// Clears the screen
-function clearScreen() {
+// Clears the screen 
+function clearInputScreen() {
     INPUT.textContent = ''
+}
+
+// Clears the screen totally
+function clearScreenTotally() {
+    INPUT.textContent = ''
+    HISTORY.textContent = ''
 }
 
 // Clear button
 CLEAR.addEventListener('click', () => {
     clearVars()
-    clearScreen()
+    clearScreenTotally()
 })
 
 // Delete button
@@ -219,6 +225,11 @@ DELETE.addEventListener('click', () => {
     if (INPUT.textContent != '' && INPUT.textContent != '0' && screenShowingResult == false) {
         INPUT.textContent = parseInt(Number(INPUT.textContent) / 10)
     }
+})
+
+// Decimal button
+DOT.addEventListener('click', () => {
+    
 })
 
 // Event Listener for each number button
@@ -233,13 +244,13 @@ NUMBERS_BUTTONS.forEach((number) => {
 
         // If showing the result, then clear
         if (screenShowingResult == true) {
-            clearScreen()
+            clearInputScreen()
             screenShowingResult = false
         }
 
         // Delete any 0 without value
         if (INPUT.textContent == '0') {
-            clearScreen()
+            clearInputScreen()
         }
 
         // Disallows writing many zeros without any value
@@ -294,7 +305,7 @@ OPERATORS_BUTTONS.forEach((operator_button) => {
                 firstNumber = dependingSignDeclarator()
                 operator = operator_button.textContent
                 HISTORY.textContent = `${firstNumber} ${operator}`
-                clearScreen()
+                clearInputScreen()
             // If user wants to do more than one operation without pressing '='
             } else {
                 showResult()
@@ -371,10 +382,11 @@ function power(firstNumber, secondNumber) {
 }
 
 function factorial(number) {
-    // not having errors solution
+    // solution for not having errors
     if (number > 170) {
         return Infinity
     }
+    //
     if (number == 0 || number == 1) {
         return 1;
     } else {
