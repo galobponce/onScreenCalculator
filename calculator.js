@@ -1,4 +1,6 @@
-// Creates UI
+/*
+    Creates UI
+*/
 const BODY = document.querySelector('body')
 
 const MAIN = document.createElement('main')
@@ -159,7 +161,9 @@ NINE.textContent = '9'
 BUTTON__CONTAINER.appendChild(NINE)
 
 
-// Calculator's Logic & events
+/* 
+    Calculator's Logic & events
+*/
 
 // Some variables
 let firstNumber = null
@@ -302,7 +306,8 @@ OPERATORS_BUTTONS.forEach((operator_button) => {
 
         // If toggler button pressed
         if (operator_button.textContent == '+/-') {
-            if (screenShowingResult == false) {
+            // Only works if there is no result beign shown on the screen, or if that result is positive
+            if (screenShowingResult == false || (screenShowingResult == true && Number(INPUT.textContent) > 0)) {
                 // Makes the number negative
                 if (sign == 'positive') {
                     inputArr = INPUT.textContent.split('')
