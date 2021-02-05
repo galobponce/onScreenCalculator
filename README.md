@@ -1,3 +1,5 @@
 # onScreenCalculator
 
-Almost pure js calculator made with javascript, html & css.
+Almost pure js on screen calculator where you can do simple math functions.
+
+[Live Demo]()
