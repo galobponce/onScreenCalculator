@@ -223,6 +223,21 @@ DELETE.addEventListener('click', () => {
     }
 })
 
+// Checks the input and returns the sign of it
+function updateVariableSign() {
+    if (Number(INPUT.textContent) > 0 || INPUT.textContent == '') {
+        return 'positive'
+    } else if (INPUT.textContent == '0') {
+        return 'zero'
+    }
+    return 'negative'
+}
+
+// Decimal button
+DOT.addEventListener('click', () => {
+
+})
+
 // Event Listener for each number button
 NUMBERS_BUTTONS.forEach((number) => {
     number.addEventListener('click', () => {
@@ -309,7 +324,8 @@ OPERATORS_BUTTONS.forEach((operator_button) => {
         // If toggler button pressed
         if (operator_button.textContent == '+/-') {
             // Only works if there is no result beign shown on the screen, or if that result is positive
-            if (screenShowingResult == false || (screenShowingResult == true && Number(INPUT.textContent) > 0)) {
+            if (INPUT.textContent != '') {
+                sign = updateVariableSign()
                 // Makes the number negative
                 if (sign == 'positive') {
                     inputArr = INPUT.textContent.split('')
@@ -318,7 +334,7 @@ OPERATORS_BUTTONS.forEach((operator_button) => {
                     INPUT.textContent = inputArr
                     sign = 'negative'
                 // Makes the number positive
-                } else {
+                } else if (sign == 'negative'){
                     inputArr = INPUT.textContent.split('')
                     inputArr.shift()
                     inputArr = inputArr.join('')
