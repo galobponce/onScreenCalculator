@@ -169,7 +169,9 @@ BUTTON__CONTAINER.appendChild(NINE)
 let firstNumber = null
 let secondNumber = null
 let operator = null
+var inputArr = null
 let screenShowingResult = false
+let decimal = false
 let sign = 'positive'
 
 // NodeList of buttons
@@ -179,8 +181,15 @@ const OPERATORS_BUTTONS = document.querySelectorAll('.operator')
 // Shows the result of an operation
 function showResult() {
     secondNumber = variableDeclarator()
-    INPUT.textContent = operate(firstNumber, secondNumber, operator)
-    HISTORY.textContent = `${firstNumber} ${operator} ${secondNumber}`
+    // Letting know to the user that he can't divide by 0, so calculator does't collapse
+    if (operator == '÷' && secondNumber == '0') {
+        INPUT.textContent = '0'
+        HISTORY.textContent = `${firstNumber} ${operator} ${secondNumber}`
+        alert("You can't divide by 0")
+    } else {
+        INPUT.textContent = operate(firstNumber, secondNumber, operator)
+        HISTORY.textContent = `${firstNumber} ${operator} ${secondNumber}`
+    }
     screenShowingResult = true
     clearVars()
 }
@@ -233,9 +242,27 @@ function updateVariableSign() {
     return 'negative'
 }
 
+// Checks the input and return if it is decimal or not
+function isItDecimal() {
+    // Declares inputArr as a string 'arrayed', then searchs for a dot in it
+    inputArr = INPUT.textContent.split('')
+    for (let i = 0; i < inputArr.length; i++) {
+        if (inputArr[i] == '.') {
+            return true
+        }
+    }
+    return false
+}
+
 // Decimal button
 DOT.addEventListener('click', () => {
-
+    // Only works if the number on the screen is not a decimal
+    if (isItDecimal() == false) {
+        inputArr = INPUT.textContent.split('')
+        inputArr.push('.')
+        inputArr = inputArr.join('')
+        INPUT.textContent = inputArr
+    }
 })
 
 // Event Listener for each number button
@@ -391,7 +418,8 @@ function power(firstNumber, secondNumber) {
 function factorial(number) {
     // solution for not having errors
     if (number > 170) {
-        return Infinity
+        alert('number too much big to display!')
+        return 0
     }
     //
     if (number == 0 || number == 1) {
