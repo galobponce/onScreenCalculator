@@ -165,14 +165,19 @@ BUTTON__CONTAINER.appendChild(NINE)
     Calculator's Logic & events
 */
 
-// Some variables
-let firstNumber = null
-let secondNumber = null
-let operator = null
-var inputArr = null
+// Some objects
+let operation = {
+    firstNumber: null,
+    secondNumber: null,
+    operator: null
+}
+
+let number = {
+    sign: 'positive'
+}
+
+let inputArr = null
 let screenShowingResult = false
-let decimal = false
-let sign = 'positive'
 
 // NodeList of buttons
 const NUMBERS_BUTTONS = document.querySelectorAll('.number')
@@ -180,15 +185,15 @@ const OPERATORS_BUTTONS = document.querySelectorAll('.operator')
 
 // Shows the result of an operation
 function showResult() {
-    secondNumber = variableDeclarator()
+    operation.secondNumber = variableDeclarator()
     // Letting know to the user that he can't divide by 0, so calculator does't collapse
-    if (operator == '÷' && secondNumber == '0') {
+    if (operation.operator == '÷' && operation.secondNumber == '0') {
         INPUT.textContent = '0'
-        HISTORY.textContent = `${firstNumber} ${operator} ${secondNumber}`
+        HISTORY.textContent = `${operation.firstNumber} ${operation.operator} ${operation.secondNumber}`
         alert("You can't divide by 0")
     } else {
-        INPUT.textContent = operate(firstNumber, secondNumber, operator)
-        HISTORY.textContent = `${firstNumber} ${operator} ${secondNumber}`
+        INPUT.textContent = operate(operation.firstNumber, operation.secondNumber, operation.operator)
+        HISTORY.textContent = `${operation.firstNumber} ${operation.operator} ${operation.secondNumber}`
     }
     screenShowingResult = true
     clearVars()
@@ -201,10 +206,10 @@ function variableDeclarator() {
 
 // Clears the variables
 function clearVars() {
-    firstNumber = null
-    secondNumber = null
-    operator = null
-    sign = 'positive'
+    operation.firstNumber = null
+    operation.secondNumber = null
+    operation.operator = null
+    number.sign = 'positive'
 }
 
 // Clears the screen 
@@ -277,8 +282,12 @@ NUMBERS_BUTTONS.forEach((number) => {
 
         // If showing the result, then clear
         if (screenShowingResult == true) {
-            clearInputScreen()
-            screenShowingResult = false
+            if (isItDecimal() == true) {
+                screenShowingResult = false
+            } else {
+                clearInputScreen()
+                screenShowingResult = false
+            }
         }
 
         // Delete any 0 without value
@@ -303,7 +312,7 @@ OPERATORS_BUTTONS.forEach((operator_button) => {
 
         // If equal button pressed
         if (operator_button.textContent == '=') {
-            if (firstNumber != null && operator != null && screenShowingResult == false) {
+            if (operation.firstNumber != null && operation.operator != null && screenShowingResult == false) {
                 showResult()
             }
         }
@@ -311,20 +320,20 @@ OPERATORS_BUTTONS.forEach((operator_button) => {
         // If factorial button pressed
         if (INPUT.textContent != '' && operator_button.textContent == '!') {
             // If it is the first operator
-            if (operator == null) {
-                firstNumber = variableDeclarator()
-                operator = operator_button.textContent
-                HISTORY.textContent = `${firstNumber}${operator}`
-                INPUT.textContent = factorial(firstNumber)
+            if (operation.operator == null) {
+                operation.firstNumber = variableDeclarator()
+                operation.operator = operator_button.textContent
+                HISTORY.textContent = `${operation.firstNumber}${operation.operator}`
+                INPUT.textContent = factorial(operation.firstNumber)
                 screenShowingResult = true
                 clearVars()
             // If the user wants to do more than one operation wihout pressing '='
             } else {
                 showResult()
-                firstNumber = variableDeclarator()
-                operator = operator_button.textContent
-                HISTORY.textContent = `${firstNumber}${operator}`
-                INPUT.textContent = factorial(firstNumber)
+                operation.firstNumber = variableDeclarator()
+                operation.operator = operator_button.textContent
+                HISTORY.textContent = `${operation.firstNumber}${operation.operator}`
+                INPUT.textContent = factorial(operation.firstNumber)
                 screenShowingResult = true
                 clearVars()
             }
@@ -334,17 +343,17 @@ OPERATORS_BUTTONS.forEach((operator_button) => {
         if (operator_button.textContent != '=' && operator_button.textContent != '!' && operator_button.textContent != '+/-') {
 
             // If we have no numbers into variables & there is no operator
-            if (firstNumber == null && operator == null) {
-                firstNumber = variableDeclarator()
-                operator = operator_button.textContent
-                HISTORY.textContent = `${firstNumber} ${operator}`
+            if (operation.firstNumber == null && operation.operator == null) {
+                operation.firstNumber = variableDeclarator()
+                operation.operator = operator_button.textContent
+                HISTORY.textContent = `${operation.firstNumber} ${operation.operator}`
                 clearInputScreen()
             // If user wants to do more than one operation without pressing '='
             } else {
                 showResult()
                 clearVars()
-                firstNumber = variableDeclarator()
-                operator = operator_button.textContent
+                operation.firstNumber = variableDeclarator()
+                operation.operator = operator_button.textContent
             }
         }
 
@@ -352,21 +361,21 @@ OPERATORS_BUTTONS.forEach((operator_button) => {
         if (operator_button.textContent == '+/-') {
             // Only works if there is no result beign shown on the screen, or if that result is positive
             if (INPUT.textContent != '') {
-                sign = updateVariableSign()
+                number.sign = updateVariableSign()
                 // Makes the number negative
-                if (sign == 'positive') {
+                if (number.sign == 'positive') {
                     inputArr = INPUT.textContent.split('')
                     inputArr.unshift('-')
                     inputArr = inputArr.join('')
                     INPUT.textContent = inputArr
-                    sign = 'negative'
+                    number.sign = 'negative'
                 // Makes the number positive
-                } else if (sign == 'negative'){
+                } else if (number.sign == 'negative'){
                     inputArr = INPUT.textContent.split('')
                     inputArr.shift()
                     inputArr = inputArr.join('')
                     INPUT.textContent = inputArr
-                    sign = 'positive'
+                    number.sign = 'positive'
                 }
             }
         }
