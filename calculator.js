@@ -223,6 +223,12 @@ function clearScreenTotally() {
     HISTORY.textContent = ''
 }
 
+// Finds the last item of input array
+function lastItemArray() {
+    inputArr = INPUT.textContent.split('')
+    return inputArr[inputArr.length - 1]
+}
+
 // Clear button
 CLEAR.addEventListener('click', () => {
     clearVars()
@@ -282,7 +288,8 @@ NUMBERS_BUTTONS.forEach((number) => {
 
         // If showing the result, then clear
         if (screenShowingResult == true) {
-            if (isItDecimal() == true) {
+            // Check if the result is decimal or not, so the user can make operations with it without losing it
+            if (isItDecimal() == true && lastItemArray() == '.') {
                 screenShowingResult = false
             } else {
                 clearInputScreen()
