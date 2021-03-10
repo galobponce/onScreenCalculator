@@ -437,6 +437,10 @@ function factorial(number) {
         alert('number too much big to display!')
         return 0
     }
+    else if (number < 0) {
+        alert('You cant factorial a negative number')
+        return 0
+    }
     //
     if (number == 0 || number == 1) {
         return 1;
